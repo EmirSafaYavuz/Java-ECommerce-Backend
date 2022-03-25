@@ -6,12 +6,12 @@ import javax.persistence.*;
 @Table(name = "products")
 public class Product {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
     private int id;
 
-    @Column(name = "category_id")
-    private int categoryId;
+    //@Column(name = "category_id")
+    //private int categoryId;
 
     @Column(name = "product_name")
     private String productName;
@@ -25,6 +25,19 @@ public class Product {
     @Column(name = "quantity_per_unit")
     private String quantityPerUnit;
 
+    public Product(int id, String productName, double unitPrice, short unitsInStock, String quantityPerUnit, Category category) {
+        this.id = id;
+        this.productName = productName;
+        this.unitPrice = unitPrice;
+        this.unitsInStock = unitsInStock;
+        this.quantityPerUnit = quantityPerUnit;
+        this.category = category;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
     public Product(){
 
     }
@@ -35,14 +48,6 @@ public class Product {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
     }
 
     public String getProductName() {
@@ -75,5 +80,13 @@ public class Product {
 
     public void setQuantityPerUnit(String quantityPerUnit) {
         this.quantityPerUnit = quantityPerUnit;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
